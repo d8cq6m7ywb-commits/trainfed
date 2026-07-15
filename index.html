@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TrainFed — fuel for the training you actually did</title>
+<meta name="description" content="TrainFed matches your fueling to your real training load and warns you — and your coach — when you're drifting under. For endurance athletes.">
+<meta name="robots" content="index,follow">
+<!-- Open Graph -->
+<meta property="og:title" content="TrainFed">
+<meta property="og:description" content="Fuel for the training you actually did. Under-fueling protection for endurance athletes.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://trainfed.co">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍽️</text></svg>">
+<style>
+  :root {
+    --bg: #f7f3ec;
+    --panel: #fffdf9;
+    --ink: #26211c;
+    --muted: #6f665b;
+    --line: #e6ddd0;
+    --ember: #cf6b28;
+    --ember-deep: #b45a1f;
+    --go: #5f8f5f;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #17130f;
+      --panel: #201b16;
+      --ink: #f1e9dd;
+      --muted: #a79a8a;
+      --line: #322a22;
+      --ember: #e2823a;
+      --ember-deep: #cf6b28;
+      --go: #7aa87a;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 48px 22px 40px;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  .mark {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(2.6rem, 9vw, 4.2rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0 0 6px;
+    line-height: 1;
+  }
+  .mark .fed { color: var(--ember); }
+  .mark .tm {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 0.26em;
+    font-weight: 600;
+    vertical-align: super;
+    color: var(--muted);
+    margin-left: 2px;
+  }
+  .eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 700;
+    margin-bottom: 30px;
+  }
+  h1 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 700;
+    font-size: clamp(1.5rem, 5.2vw, 2.15rem);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    margin: 0 0 18px;
+    max-width: 16ch;
+  }
+  .lede {
+    color: var(--muted);
+    font-size: clamp(1rem, 2.6vw, 1.12rem);
+    margin: 0 auto 30px;
+    max-width: 48ch;
+  }
+  .lede b { color: var(--ink); font-weight: 600; }
+  .points {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 36px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+    justify-content: center;
+  }
+  .points li {
+    font-size: 0.9rem;
+    color: var(--ink);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .points li::before {
+    content: "";
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--go);
+    flex: none;
+  }
+  .points li.b2::before { background: var(--ember); }
+  .points li.b3::before { background: #7c93c0; }
+
+  form {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    max-width: 420px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  input[type=email] {
+    flex: 1 1 220px;
+    min-width: 0;
+    padding: 13px 15px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--panel);
+    color: var(--ink);
+    font-size: 1rem;
+    outline: none;
+    transition: border-color .15s;
+  }
+  input[type=email]:focus { border-color: var(--ember); }
+  button {
+    flex: 0 0 auto;
+    padding: 13px 22px;
+    border: none;
+    border-radius: 10px;
+    background: var(--ember);
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    transition: background .15s, transform .05s;
+  }
+  button:hover { background: var(--ember-deep); }
+  button:active { transform: translateY(1px); }
+  .form-note {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 14px;
+    min-height: 1.2em;
+  }
+  .form-note.ok { color: var(--go); font-weight: 600; }
+  footer {
+    text-align: center;
+    padding: 24px;
+    color: var(--muted);
+    font-size: 0.78rem;
+    border-top: 1px solid var(--line);
+  }
+  footer a { color: var(--muted); }
+</style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="mark">Train<span class="fed">Fed</span><span class="tm">™</span></div>
+    <div class="eyebrow">Training-aware nutrition for endurance athletes</div>
+
+    <h1>Eat for the training you actually did.</h1>
+
+    <p class="lede">
+      TrainFed connects your <b>planned and completed training</b>, your
+      <b>fueling</b>, your <b>weight trend</b>, and your <b>coach's oversight</b>
+      into one daily read — so you fuel for the work you're really doing, and get
+      an early warning when you're drifting under. Built for endurance athletes,
+      where eating too little quietly costs health and performance.
+    </p>
+
+    <ul class="points">
+      <li class="b1">Fueled-enough, not just calorie-counted</li>
+      <li class="b2">Anchored to your training data</li>
+      <li class="b3">A coach in the loop</li>
+    </ul>
+
+    <form id="signup" novalidate>
+      <input type="email" id="email" name="email" placeholder="you@email.com" aria-label="Email address" required>
+      <button type="submit">Request beta access</button>
+    </form>
+    <div class="form-note" id="note">A limited private beta opens soon. Leave your email to request a spot.</div>
+  </main>
+
+  <footer>
+    © 2026 TrainFed · trainfed.co · an independent project, early access soon
+  </footer>
+
+<script>
+  // ── Email capture ────────────────────────────────────────────────
+  // Zero-backend by default: submissions open the visitor's mail client
+  // addressed to CONTACT below. For smooth in-page capture, create a free
+  // form at formspree.io (2 min) and paste its endpoint into ENDPOINT.
+  const ENDPOINT = "";                         // e.g. "https://formspree.io/f/abcdwxyz"
+  const CONTACT  = "hello@trainfed.co";        // mailto fallback target
+
+  const form = document.getElementById('signup');
+  const note = document.getElementById('note');
+  const emailEl = document.getElementById('email');
+
+  function say(msg, ok) {
+    note.textContent = msg;
+    note.classList.toggle('ok', !!ok);
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const email = (emailEl.value || '').trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      say('Please enter a valid email address.', false);
+      emailEl.focus();
+      return;
+    }
+
+    if (ENDPOINT) {
+      say('Sending…', false);
+      fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, source: 'trainfed.co holding page' })
+      }).then(function (r) {
+        if (r.ok) { form.reset(); say('You’re on the list — thanks!', true); }
+        else { say('Something went wrong. Email ' + CONTACT + ' instead.', false); }
+      }).catch(function () {
+        say('Network error. Email ' + CONTACT + ' instead.', false);
+      });
+    } else {
+      // Fallback: open mail client with the address prefilled.
+      const subject = encodeURIComponent('TrainFed — request beta access');
+      const body = encodeURIComponent('Please add me to the TrainFed private beta list.\n\nEmail: ' + email);
+      window.location.href = 'mailto:' + CONTACT + '?subject=' + subject + '&body=' + body;
+      say('Opening your email app to confirm…', true);
+    }
+  });
+</script>
+</body>
+</html>
