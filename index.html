@@ -167,6 +167,18 @@
     min-height: 1.2em;
   }
   .form-note.ok { color: var(--go); font-weight: 600; }
+  .already {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin: 22px 0 0;
+  }
+  .already a {
+    color: var(--ember);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
+  .already a:hover { border-bottom-color: var(--ember); }
   footer {
     text-align: center;
     padding: 24px;
@@ -202,11 +214,13 @@
       <input type="email" id="email" name="email" placeholder="you@email.com" aria-label="Email address" required>
       <button type="submit">Request beta access</button>
     </form>
-    <div class="form-note" id="note">A limited private beta opens soon. Leave your email to request a spot.</div>
+    <div class="form-note" id="note">The private pilot is running now with a small group of coached athletes. Leave your email to be in the next intake.</div>
+
+    <p class="already">Already invited? <a href="https://app.trainfed.co">Open TrainFed →</a></p>
   </main>
 
   <footer>
-    © 2026 TrainFed · trainfed.co · an independent project, early access soon
+    © 2026 TrainFed · trainfed.co · an independent project · private pilot in progress
   </footer>
 
 <script>
